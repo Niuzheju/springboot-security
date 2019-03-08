@@ -1,0 +1,24 @@
+initialzation:
+  file:
+    users:  users.json
+    roles:  roles.json
+spring: #数据源
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url:  jdbc:mysql://localhost:3306/my_db
+    username: root
+    password: root
+  jpa:
+    database: mysql
+    show-sql: true #打印sql
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        dialect:  org.hibernate.dialect.MySQL5Dialect #方言
+
+
