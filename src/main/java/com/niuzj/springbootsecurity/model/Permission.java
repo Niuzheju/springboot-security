@@ -2,19 +2,34 @@ package com.niuzj.springbootsecurity.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import tk.mybatis.mapper.annotation.KeySql;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
-public class Permission {
+@Table(name = "permission")
+public class Permission implements Serializable {
 
-    private String resourceId;
+    private static final long serialVersionUID = -3364071680833366400L;
 
-    private String resourceName;
+    @Id
+    @KeySql(useGeneratedKeys = true)
+    private Long id;
 
-    private Map<String, String> privileges = new HashMap<>();
+    private String code;
+
+    private String module;
+
+    private String desc;
+
+    @Column(name = "create_time")
+    private Date createTime;
+
 
 
 }

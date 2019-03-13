@@ -1,8 +1,7 @@
 package com.niuzj.springbootsecurity.dao;
 
 import com.niuzj.springbootsecurity.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
+import tk.mybatis.mapper.common.Mapper;
 
-public interface UserRepository extends JpaRepository<User, Long> {
-    User findByUsername(String username);
+public interface UserRepository extends Mapper<User> {
 }

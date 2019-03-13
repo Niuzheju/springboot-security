@@ -1,19 +1,18 @@
 package com.niuzj.springbootsecurity.service;
 
+import com.niuzj.springbootsecurity.dao.RoleRepository;
 import com.niuzj.springbootsecurity.model.Permission;
 import com.niuzj.springbootsecurity.model.Role;
 import com.niuzj.springbootsecurity.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class CustomerUserDetailService implements UserDetailsService {
@@ -24,23 +23,26 @@ public class CustomerUserDetailService implements UserDetailsService {
     @Autowired
     private IRoleService roleService;
 
+    @Autowired
+    private IPermissionService permissionService;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userService.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException(username + "不存在");
         }
-        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        List<String> roles = user.getRoles();
-        List<Role> roleList = roleService.findByNames(roles);
-        if (roleList == null || roleList.isEmpty()) {
+        List<Role> roles = user.getRoles();
+        if (roles == null || roles.isEmpty()) {
             return null;
         }
-        for (Role role : roleList) {
-            List<Permission> permissions = role.getPermissions();
-            for (Permission permission : permissions) {
-                for (String privileges : permission.getPrivileges().keySet()) {
-                    authorities.add(new SimpleGrantedAuthority(String.format("%s-%s", permission.getResourceId(), privileges)));
+        //查询所有角色的权限
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        for (Role role : roles) {
+            List<Permission> permissions = permissionService.findByRoleId(role.getId());
+            if (permissions != null && !permissions.isEmpty()) {
+                for (Permission permission : permissions) {
+                    authorities.add(new SimpleGrantedAuthority(String.format("%s-%s", permission.getModule(), permission.getCode())));
                 }
             }
         }
