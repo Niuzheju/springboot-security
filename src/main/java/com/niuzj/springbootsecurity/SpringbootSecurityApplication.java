@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import tk.mybatis.spring.annotation.MapperScan;
 
-//https://blog.csdn.net/cloume/article/details/83790111
+//https://www.cnblogs.com/softidea/p/5991897.html
 @MapperScan("com.niuzj.springbootsecurity.dao")
 @SpringBootApplication
 public class SpringbootSecurityApplication {

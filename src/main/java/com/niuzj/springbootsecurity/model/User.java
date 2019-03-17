@@ -19,7 +19,7 @@ public class User implements UserDetails {
     private static final long serialVersionUID = 7212049228053094624L;
 
     //密码加密工具
-    private static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
+    public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     @Id
     @KeySql(useGeneratedKeys = true)
